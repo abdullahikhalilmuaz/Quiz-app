@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .note-taker {
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0px 0px 5px rgba(0,0,0,.3);
+            width: 50%;
+            margin: 20px auto;
+            border-radius: 10px;
+            padding: 10px 20px;
+            box-sizing: border-box;
+        }
+
+        .note-taker textarea {
+            width: 80%;
+            height: 60px;
+            margin: 20px auto;
+            border-radius: 3px;
+            border: none;
+            box-shadow: 0px 0px 6px rgba(0,0,0,.2);
+            padding: 10px 10px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .note-taker button {
+            border: none;
+            padding: 8px 10px;
+            width: 30%;
+            margin: 0px auto;
+            background-color: #00aa6d;
+            color: white;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+
+        .note-taker h2 {
+            font-size: 30px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 1px;
+            color:rgb(41, 34, 34);
+            margin: 10px auto;
+        }
+
+        #note-wrapper {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            width: 90%;
+            height: 40%;
+            overflow: auto;
+            position: fixed;
+            margin: 50px 5%;
+            border-radius: 10px;
+            box-shadow: 0px 0px 6px rgba(0,0,0,.2);
+        }
+
+    #myNote {
+        padding: 10px 10px;
+        box-shadow: 0px 0px 5px rgba(0,0,0,.2);
+        margin: 10px 10px ;
+        height: 130px;
+        max-height: 150px;
+        max-width: 300px;
+    }        
+
+    #myNote button:first-of-type {
+        border: none;
+        padding: 6px 8px;
+        background-color: red;
+        color: white;
+        cursor: pointer;
+        border-radius: 3px;
+    }
+
+    #myNote button {
+        background-color: #00aa6d;
+        border: none;
+        padding: 6px 8px;
+        color: white;
+        cursor: pointer;
+        border-radius: 3px;
+    }
+    @media only screen and ( max-width: 990px ) {
+        .note-taker  {
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0px 0px 5px rgba(0,0,0,.3);
+            width: 100%;
+            margin: 20px auto;
+            border-radius: 10px;
+            padding: 10px 20px;
+            box-sizing: border-box;
+        }
+
+        #myNote {
+        padding: 10px 10px;
+        box-shadow: 0px 0px 5px rgba(0,0,0,.2);
+        margin: 10px 20px ;
+        height: 130px;
+        max-height: 150px;
+        max-width: 270px;
+    }  
+    .note-taker h2 {
+        font-size: 15px;
+    }
+        
+    }
+    </style>
+</head>
+<body>
+    <body class="body">
+        <div class="note-taker">
+            <h2>Welcome to Magic Notes</h2>
+            <textarea id="noteInput" cols="40" rows="4" placeholder="Notes here ! "></textarea>
+            <button id="addNote">Add Note</button>
+        </div>
+    
+    <div id="note-wrapper"></div>
+       
+    
+          
+    <script>
+        var noteContainer = []
+        var add = document.getElementById("addNote").addEventListener("click", addNote)
+    
+        function addNote() {
+           var noteInput = document.getElementById("noteInput").value
+           var noteTitle = ` Note ${noteContainer.length + 1}`
+           var noteSliced = noteInput.split(' ').splice( 0 , 5 ).join(' ')
+           var noteHTML = `
+           <div id="myNote">
+            <h4 id="title">${noteTitle}</h4>
+            <p id="text">${noteSliced}</p>
+           <div class="but">
+            <button class="delete-note">Delete Note</button>
+            <button class="view">view</button>
+           </div>
+            </div>
+           `
+    
+           if ( noteInput.trim() === "") {
+               alert("Enter something and try again")
+               return 0
+           }
+    
+           document.getElementById("note-wrapper").innerHTML += noteHTML
+           noteContainer.push(
+               {
+                   title : noteTitle,
+                   text : noteInput
+               }
+           )
+    
+           document.getElementById("noteInput").value = ""
+           var deleteNotes = document.querySelectorAll(".delete-note")
+           deleteNotes.forEach(function(button) {
+               button.addEventListener("click", ()=> {
+                  var del = button.parentNode.parentNode.remove()
+                  var index = noteContainer.indexOf(del)
+                  noteContainer.splice( index , 1)
+               })
+           })
+    
+           var view = document.querySelectorAll(".view")
+           view.forEach(function(button) {
+               button.addEventListener("click", ()=> {
+                   alert(noteInput)
+               })
+           })
+    
+          
+         }
+    </script>
+    </body>
+    </html>
+</body>
+</html>
+
+
